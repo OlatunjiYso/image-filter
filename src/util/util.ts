@@ -17,6 +17,7 @@ export async function filterImageFromURL(inputURL: string): Promise<string> {
       await photo
         .resize(200, 300) // resize
         .quality(65) // set JPEG quality
+        .grayscale()
         .rotate(90)
         .write(__dirname + outpath, (img) => {
           resolve(__dirname + outpath);
