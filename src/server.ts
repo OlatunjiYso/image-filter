@@ -36,16 +36,18 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
       image_url: string
   }
   
+  app.get( "/filteredimage", async ( req: Request, res: Response  ) => {
+    const { image_url } = req.query ;
+    if(!image_url) res.send('image url is required');
+    const filteredImage = await filterImageFromURL(image_url as string);
+    console.log(filteredImage)
+    res.sendFile(filteredImage, deleteLocalFiles([filteredImage]));
+
+  } );
   app.get( "/", async ( req: Request, res: Response ) => {
     res.send("try GET /filteredimage?image_url={{}}")
   } );
-  app.get( "/filteredimage?image_url", async ( req, res ) => {
-    const { image_url } = req.params as Query;
-    if(!image_url) res.send('image url is required');
-    const filteredImage = await filterImageFromURL(image_url);
-    res.sendFile(filteredImage);
 
-  } );
   
 
   // Start the Server
